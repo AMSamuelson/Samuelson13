@@ -14,10 +14,13 @@ public class GameController : MonoBehaviour
     public GUIText scoreText;
     public GUIText restartText;
     public GUIText gameOverText;
+    public GUIText levelUpText;
 
     private bool gameOver;
     private bool restart;
     private int score;
+    private int level;
+    private int scoreInc;
 
     void Start()
     {
@@ -26,7 +29,10 @@ public class GameController : MonoBehaviour
         restartText.text = "";
         gameOverText.text = "";
         score = 0;
+        level = 1;
+        scoreInc = 50;
         UpdateScore();
+        UpdateLevel();
         StartCoroutine(SpawnWaves());
     }
 
@@ -67,12 +73,24 @@ public class GameController : MonoBehaviour
     public void AddScore(int newScoreValue)
     {
         score += newScoreValue;
+        //added level up capabilities
+        if (score == scoreInc)
+        {
+            level += 1;
+            scoreInc += 2*scoreInc;
+        }
         UpdateScore();
+        UpdateLevel();
     }
 
     void UpdateScore()
     {
         scoreText.text = "Score: " + score;
+    }
+ 
+    void UpdateLevel()
+    {
+        levelUpText.text = "Level Up: " + level;
     }
 
     public void GameOver()
